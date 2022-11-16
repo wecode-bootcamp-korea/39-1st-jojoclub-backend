@@ -1,6 +1,6 @@
 const { DataSource } = require("typeorm");
 
-const AppDataSource = new DataSource({
+const appDataSource = new DataSource({
   type: process.env.DB_TYPE,
   host: process.env.DB_HOST,
   port: process.env.DB_PORT,
@@ -9,4 +9,4 @@ const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
 });
 
-module.exports = { AppDataSource };
+module.exports = { appDataSource };
