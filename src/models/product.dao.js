@@ -1,7 +1,7 @@
 const { appDataSource } = require("./data-source");
 
-const returnMainPageProducts = async () => {
-  const mainPageProducts = await appDataSource.query(
+const getProducts = async () => {
+  const products = await appDataSource.query(
     `
     SELECT 
       products.name_en as enName,
@@ -14,7 +14,7 @@ const returnMainPageProducts = async () => {
     ORDER BY created_at limit 7;
     `
   );
-  return mainPageProducts;
+  return products;
 };
 
-module.exports = { returnMainPageProducts };
+module.exports = { getProducts };
