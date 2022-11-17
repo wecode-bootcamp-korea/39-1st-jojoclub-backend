@@ -13,7 +13,7 @@ const getProduct = async (productId) => {
 };
 
 const getAllProductsByScent = async (scentId) => {
-  return await productDao.getsAllProductsByScent(scentId);
+  return await productDao.getAllProductsByScent(scentId);
 };
 
 module.exports = {
