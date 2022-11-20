@@ -1,51 +1,39 @@
 const productService = require("../services/product.service");
+const { catchAsync } = require("../utils/error");
 
-const getNewProducts = async (req, res) => {
-  try {
-    const { limitNum } = req.params;
-    res.status(200).json(await productService.getNewProducts(limitNum));
-  } catch (err) {
-    console.log(err);
-    return res.status(err.statusCode || 500).json({ message: err.message });
+const getNewProducts = catchAsync(async (req, res) => {
+  const orderBy = req.query.orderBy;
+  const limitNum = req.query.limitNum;
+  res.status(200).json(await productService.getNewProducts(orderBy, limitNum));
+});
+
+const getAllProducts = catchAsync(async (req, res) => {
+  const { gender, scent, priceRange } = req.query;
+  res
+    .status(200)
+    .json(await productService.getAllProducts(gender, scent, priceRange));
+});
+
+const getProduct = catchAsync(async (req, res) => {
+  const productId = req.params;
+  if (!productId) {
+    return res.status(400).json({ message: "KEY_ERROR" });
   }
-};
 
-const getAllProducts = async (req, res) => {
-  try {
-    res.status(200).json(await productService.getProducts());
-  } catch (err) {
-    console.log(err);
-    return res.status(err.statusCode || 500).json({ message: err.message });
+  res.status(200).json(await productService.getProduct(productId));
+});
+
+const getAllProductsByScent = catchAsync(async (req, res) => {
+  const { scentId } = req.params;
+  const orderBy = req.query.orderBy;
+  if (!scentId) {
+    return res.status(400).json({ message: "KEY_ERROR" });
   }
-};
 
-const getProduct = async (req, res) => {
-  try {
-    const { productId } = req.params;
-    if (!productId) {
-      return res.status(400).json({ message: "KEY_ERROR" });
-    }
-
-    res.status(200).json(await productService.getProduct(productId));
-  } catch (err) {
-    console.log(err);
-    return res.status(err.statusCode || 500).json({ message: err.message });
-  }
-};
-
-const getAllProductsByScent = async (req, res) => {
-  try {
-    const { scentId } = req.params;
-    if (!scentId) {
-      return res.status(400).json({ message: "KEY_ERROR" });
-    }
-
-    res.status(200).json(await productService.getAllProductsByScent(scentId));
-  } catch (err) {
-    console.log(err);
-    return res.status(err.statusCode || 500).json({ message: err.message });
-  }
-};
+  res
+    .status(200)
+    .json(await productService.getAllProductsByScent(scentId, orderBy));
+});
 
 module.exports = {
   getNewProducts,

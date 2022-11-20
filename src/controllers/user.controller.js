@@ -1,33 +1,51 @@
 const userService = require("../services/user.service");
+const { catchAsync } = require("../utils/error");
 
-const signUp = async (req, res) => {
-  try {
-    const { name, email, password, phoneNumber, address } = req.body;
+const signUp = catchAsync(async (req, res) => {
+  const { name, email, password, phoneNumber } = req.body;
 
-    if (!name || !email || !password || !phoneNumber || !address) {
-      return res.status(400).json({ message: "KEY_ERROR" });
-    }
-
-    await userService.signUp(name, email, password, phoneNumber, address);
-    return res.status(201).json({
-      message: "SIGNUP_SUCCESS",
-    });
-  } catch (err) {
-    console.log(err);
-    return res.status(err.statusCode || 500).json({ message: err.message });
+  if (!name || !email || !password || !phoneNumber) {
+    const err = new Error("KEY_ERROR");
+    err.statusCode = 400;
+    throw err;
   }
-};
 
-const signIn = async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  await userService.signUp(name, email, password, phoneNumber);
 
-    const accessToken = await userService.signIn(email, password);
+  return res.status(201).json({
+    message: "SIGNUP_SUCCESS",
+  });
+});
 
-    res.status(200).json({ accessToken: accessToken });
-  } catch (err) {
-    res.status(err.statusCode || 401).json({ message: err.message });
+const signIn = catchAsync(async (req, res) => {
+  const { email, password } = req.body;
+
+  if ( !email || !password ) {
+    const err = new Error("KEY_ERROR");
+    err.statusCode = 400;
+    throw err;
   }
-};
 
-module.exports = { signUp, signIn };
+  const accessToken = await userService.signIn(email, password);
+
+  res.status(200).json({ accessToken: accessToken });
+});
+
+const modifyAddress = catchAsync(async (req, res) => {
+  const userId = req.user.id
+  const { address } = req.body;
+
+  if (!userId || !address) {
+    const err = new Error("KEY_ERROR");
+    err.statusCode = 400;
+    throw err;
+  }
+
+  await userService.modifyAddress(userId, address);
+
+  return res.status(201).json({
+    message: "ADDRESS_SIGNUP_SUCCESS",
+  });
+});
+
+module.exports = { signUp, signIn, modifyAddress };
