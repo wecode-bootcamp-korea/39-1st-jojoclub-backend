@@ -10,4 +10,15 @@ const validateEmail = (email) => {
   }
 };
 
-module.exports = { validateEmail };
+const validatePw = (password) => {
+  const pwValidation = new RegExp(
+    /^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!@#$%^*+=-]).{6,16}$/
+  );
+  if (!pwValidation.test(password)) {
+    const err = new Error("PASSWORD_IS_NOT_VALID");
+    err.statusCode = 409;
+    throw err;
+  }
+};
+
+module.exports = { validateEmail, validatePw };

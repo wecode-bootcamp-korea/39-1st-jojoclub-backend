@@ -1,12 +1,6 @@
 const { appDataSource } = require("./data-source");
 
-const createUser = async (
-  name,
-  email,
-  hashedPassword,
-  phoneNumber,
-  address
-) => {
+const createUser = async (name, email, hashedPassword, phoneNumber) => {
   await appDataSource.query(
     `
     INSERT INTO users (
@@ -19,26 +13,46 @@ const createUser = async (
       ?,
       ?,
       ?,
-      ?,
       ?
-    )
+    );
     `,
-    [name, email, hashedPassword, phoneNumber, address]
+    [name, email, hashedPassword, phoneNumber]
   );
 };
 
 const getUserByEmail = async (email) => {
   const [user] = await appDataSource.query(
-    //Uers을 배열에 넣은 이유는?
     `
       SELECT *
       FROM users u
-      WHERE u.email = ?
+      WHERE u.email = ?;
     `,
     [email]
   );
-  console.log(user);
   return user;
 };
 
-module.exports = { createUser, getUserByEmail };
+const getUserByUserId = async (userId) => {
+  const [user] = await appDataSource.query(
+    `
+      SELECT *
+      FROM users u
+      WHERE u.id = ?;
+    `,
+    [userId]
+  );
+  return user;
+};
+const modifyAddress = async (userId, address) => {
+  const modifyAddress = await appDataSource.query(
+    `
+    UPDATE users
+    SET address = ?
+    WHERE users.id = ?;
+    `,
+    [address, userId]
+  );
+  return modifyAddress;
+};
+
+module.exports = { createUser, getUserByEmail, modifyAddress, getUserByUserId };
