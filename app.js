@@ -15,9 +15,9 @@ app.use(morgan("combined"));
 app.use(routes);
 app.use(globalErrorHandler);
 
-// app.get("/ping", function (req, res) {
-//   return res.status(200).json({ message: "pong" });
-// });
+app.get("/ping", function (req, res) {
+  return res.status(200).json({ message: "pong" });
+});
 
 const PORT = process.env.PORT;
 
