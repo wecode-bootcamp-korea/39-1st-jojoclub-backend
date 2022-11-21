@@ -17,20 +17,28 @@ const createCart = async (quantity, userId, productOptionId) => {
   );
 };
 
-const getCart = async (quantity, userId, productOptionId) => {
+const getCart = async (userId) => {
   await appDataSource.query(
     `
     SELECT 
+      u.id as userNum,
+      c.id as cartsNum,
       po.image_url,
       p.name_ko,
       p.name_en,
       s.name as size,
-      po.price
+      po.price,
       c.quantity
-    FROM products 
+    FROM products p
+    INNER JOIN product_options po ON p.id = po.product_id
+    INNER JOIN sizes s ON s.id = po.size_id
+    INNER JOIN carts c ON c.product_option_id = po.id
+    INNER JOIN users u ON u.id = c.user_id
+    WHERE u.id = ?;
     `,
-    [quantity, userId, productOptionId]
+    [userId]
   );
+  return 
 };
 
 const updateCart = async (cartsId, quantity) => {

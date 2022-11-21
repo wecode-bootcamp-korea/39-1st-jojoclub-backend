@@ -19,15 +19,15 @@ const createCarts = catchAsync(async (req, res) => {
 });
 
 const getCarts = catchAsync(async (req, res) => {
-  const { cartsId, quantity } = req.body;
+  const userId = req.user.id;
 
-  if (!cartsId || !quantity ) {
+  if (!userId ) {
     const err = new Error("KEY_ERROR");
     err.statusCode = 400;
     throw err;
   }
 
-  await cartsService.getCarts(cartsId, quantity);
+  await cartsService.getCarts(userId);
 
   return res.status(201).json({
     message: "UPDATE_SUCCESS",
@@ -66,4 +66,4 @@ const deleteCarts = catchAsync(async (req, res) => {
   });
 });
 
-module.exports = { createCarts, updateCarts, deleteCarts };
+module.exports = { createCarts, getCarts, updateCarts, deleteCarts };
