@@ -1,7 +1,7 @@
 const cartsService = require("../services/carts.service");
 const { catchAsync } = require("../utils/error");
 
-const signUp = catchAsync(async (req, res) => {
+const createCarts = catchAsync(async (req, res) => {
   const { quantitiy, productOptionId } = req.body;
   const userId = req.user.id;
 
@@ -18,4 +18,4 @@ const signUp = catchAsync(async (req, res) => {
   });
 });
 
-module.exports = { signUp };
+module.exports = { createCarts };
