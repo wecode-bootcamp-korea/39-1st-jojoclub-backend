@@ -1,10 +1,10 @@
 const { appDataSource } = require("./data-source");
 
-const createCart = async (quantitiy, userId, productOptionId) => {
+const createCart = async (quantity, userId, productOptionId) => {
   await appDataSource.query(
     `
     INSERT INTO carts (
-      quantitiy,
+      quantity,
       user_id,
       product_option_id
     ) VALUES (
@@ -13,7 +13,7 @@ const createCart = async (quantitiy, userId, productOptionId) => {
       ?
     );
     `,
-    [quantitiy, userId, productOptionId]
+    [quantity, userId, productOptionId]
   );
 };
 

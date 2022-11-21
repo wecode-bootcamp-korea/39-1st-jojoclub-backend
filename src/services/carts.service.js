@@ -1,7 +1,7 @@
 const cartDao = require("../models/cart.dao")
 
-const signUp = async (quantitiy, userId, productOptionId) => {
-  await cartDao.createCart(quantitiy, userId, productOptionId);
+const signUp = async (quantity, userId, productOptionId) => {
+  await cartDao.createCart(quantity, userId, productOptionId);
 };
 
 module.exports = {signUp}
