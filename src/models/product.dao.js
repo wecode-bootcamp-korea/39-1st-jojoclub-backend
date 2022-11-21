@@ -17,9 +17,8 @@ const getNewProducts = async (orderBy, limitNum) => {
   return newProducts;
 };
 
-const getAllProducts = async (filteringByGenderQuery, filteringByScentQuery) => {
-  console.log(filteringByGenderQuery);
-  const getAllProducts1 = 
+const getAllProducts = async (combineAllFilter) => {
+  const tableQuary = 
     `SELECT
       p.name_en as enName,
       p.name_ko koName,
@@ -38,9 +37,9 @@ const getAllProducts = async (filteringByGenderQuery, filteringByScentQuery) => 
     INNER JOIN sizes s ON s.id = size_id
     INNER JOIN scents sc ON p.scent_id = sc.id
     INNER JOIN genders g ON p.gender_id = g.id `
-  const getAllProducts2 = 
+  const groupBy = 
     ` GROUP BY p.id `
-  const result = getAllProducts1 + filteringByGenderQuery + filteringByScentQuery + getAllProducts2;
+  const result = tableQuary + combineAllFilter + groupBy;
   const allProducts = await appDataSource.query(
     `${result}`
   );
