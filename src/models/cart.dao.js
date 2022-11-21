@@ -17,4 +17,25 @@ const createCart = async (quantity, userId, productOptionId) => {
   );
 };
 
-module.exports = { createCart };
+const updateCarts = async (cartsId, quantity) => {
+  await appDataSource.query(
+    `
+    UPDATE carts
+    SET quantity = ?
+    WHERE carts.id = ?;
+    `,
+    [quantity, cartsId]
+  );
+};
+
+const deleteCarts = async (cartsId) => {
+  await appDataSource.query(
+    `
+    DELETE FROM carts
+    WHERE carts.id = ?;
+    `,
+    [cartsId]
+  );
+};
+
+module.exports = { createCart, updateCarts, deleteCarts };
