@@ -30,7 +30,7 @@ const getCarts = catchAsync(async (req, res) => {
   await cartsService.getCarts(userId);
 
   return res.status(201).json({
-    message: "UPDATE_SUCCESS",
+    message: carts
   });
 });
 

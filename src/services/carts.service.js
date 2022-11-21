@@ -5,7 +5,7 @@ const createCarts = async (quantity, userId, productOptionId) => {
 };
 
 const getCarts = async (userId) => {
-  await cartDao.getCart(userId);
+  return await cartDao.getCart(userId);
 };
 
 const updateCarts = async (cartsId, quantity) => {

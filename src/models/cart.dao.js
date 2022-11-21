@@ -18,7 +18,7 @@ const createCart = async (quantity, userId, productOptionId) => {
 };
 
 const getCart = async (userId) => {
-  await appDataSource.query(
+  const cart = await appDataSource.query(
     `
     SELECT 
       u.id as userNum,
@@ -38,7 +38,7 @@ const getCart = async (userId) => {
     `,
     [userId]
   );
-  return 
+  return cart;
 };
 
 const updateCart = async (cartsId, quantity) => {
