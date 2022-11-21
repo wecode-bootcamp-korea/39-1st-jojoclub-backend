@@ -26,12 +26,8 @@ const getCarts = catchAsync(async (req, res) => {
     err.statusCode = 400;
     throw err;
   }
-
-  await cartsService.getCarts(userId);
-
-  return res.status(201).json({
-    message: carts
-  });
+  
+  return res.status(201).json(await cartsService.getCarts(userId));
 });
 
 const updateCarts = catchAsync(async (req, res) => {
