@@ -1,6 +1,6 @@
 const { appDataSource } = require("./data-source");
 
-const getNewProducts = async (limitNum) => {
+const getNewProducts = async (orderBy, limitNum) => {
   const newProducts = await appDataSource.query(
     `
     SELECT 
@@ -11,19 +11,20 @@ const getNewProducts = async (limitNum) => {
       products.created_at
     FROM products INNER JOIN product_options 
     ON products.id = product_id INNER JOIN sizes ON sizes.id = size_id
-    ORDER BY created_at limit ${limitNum};
+    ORDER BY ${orderBy} limit ${limitNum};
     `
   );
-  console.log(newProducts);
   return newProducts;
 };
 
-const getAllProducts = async (genderId, scentId) => {
-  const allProducts = await appDataSource.query(
-    `
-    SELECT 
+const getAllProducts = async (filteringByGenderQuery, filteringByScentQuery) => {
+  console.log(filteringByGenderQuery);
+  const getAllProducts1 = 
+    `SELECT
       p.name_en as enName,
       p.name_ko koName,
+      sc.name as scent,
+      g.name as gender,
       JSON_ARRAYAGG(
         JSON_OBJECT(
           "img", po.image_url,
@@ -35,10 +36,15 @@ const getAllProducts = async (genderId, scentId) => {
     FROM products p
     INNER JOIN product_options po ON p.id = product_id
     INNER JOIN sizes s ON s.id = size_id
-    GROUP BY p.id
-    ORDER BY created_at;
-    `
+    INNER JOIN scents sc ON p.scent_id = sc.id
+    INNER JOIN genders g ON p.gender_id = g.id `
+  const getAllProducts2 = 
+    ` GROUP BY p.id `
+  const result = getAllProducts1 + filteringByGenderQuery + filteringByScentQuery + getAllProducts2;
+  const allProducts = await appDataSource.query(
+    `${result}`
   );
+  console.log(allProducts)
   return allProducts;
 };
 
@@ -68,7 +74,7 @@ const getProduct = async (productId) => {
   return product;
 };
 
-const getAllProductsByScent = async (scentId) => {
+const getAllProductsByScent = async (scentId, orderBy) => {
   const allProducts = await appDataSource.query(
     `
     SELECT
@@ -91,10 +97,10 @@ const getAllProductsByScent = async (scentId) => {
     INNER JOIN sizes s ON s.id = size_id
     WHERE sc.id = ${scentId}
     GROUP BY p.id
-    ORDER BY created_at;
-    `
+    ORDER BY ?;
+    `,
+    [orderBy]
   );
-  console.log(allProducts);
   return allProducts;
 };
 
