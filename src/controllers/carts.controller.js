@@ -18,6 +18,22 @@ const createCarts = catchAsync(async (req, res) => {
   });
 });
 
+const getCarts = catchAsync(async (req, res) => {
+  const { cartsId, quantity } = req.body;
+
+  if (!cartsId || !quantity ) {
+    const err = new Error("KEY_ERROR");
+    err.statusCode = 400;
+    throw err;
+  }
+
+  await cartsService.getCarts(cartsId, quantity);
+
+  return res.status(201).json({
+    message: "UPDATE_SUCCESS",
+  });
+});
+
 const updateCarts = catchAsync(async (req, res) => {
   const { cartsId, quantity } = req.body;
 
