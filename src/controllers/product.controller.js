@@ -6,4 +6,13 @@ const getNewProducts = catchAsync(async (req, res) => {
   return res.status(200).json(await productService.getNewProducts(orderBy, limitNum));
 });
 
-module.exports = { getNewProducts }
+const getProduct = catchAsync(async (req, res) => {
+  const {productId} = req.params;
+  if (!productId) {
+    return res.status(400).json({ message: "KEY_ERROR" });
+  }
+
+  return res.status(200).json(await productService.getProduct(productId));
+});
+
+module.exports = { getNewProducts, getProduct }

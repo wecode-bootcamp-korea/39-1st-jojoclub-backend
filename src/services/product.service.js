@@ -4,4 +4,8 @@ const getNewProducts = async (orderBy, limitNum) => {
   return await productDao.getNewProducts(orderBy, limitNum);
 };
 
-module.exports = { getNewProducts }
+const getProduct = async (productId) => {
+  return await productDao.getProduct(productId);
+};
+
+module.exports = { getNewProducts, getProduct }
