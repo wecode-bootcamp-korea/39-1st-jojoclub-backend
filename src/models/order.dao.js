@@ -1,7 +1,7 @@
 const { appDataSource } = require("./data-source");
 
-const createOrder = async ( orderId, orderStatusId, userId, orderItemStatusId, productOptionId, quantity) => {
-  const orders = await appDataSource.query(
+const createOrder = async ( orderId, orderStatusId, userId, orderItemStatusId, productOptionId, quantity, totalPrice) => {
+  const order = await appDataSource.query(
     `
     INSERT INTO orders (
       order_status_id,
@@ -14,7 +14,7 @@ const createOrder = async ( orderId, orderStatusId, userId, orderItemStatusId, p
     [orderStatusId, userId]
   );
 
-  const order_items = await appDataSource.query(
+  const orderItem = await appDataSource.query(
     `
     INSERT INTO order_items (
       order_id,
@@ -30,7 +30,21 @@ const createOrder = async ( orderId, orderStatusId, userId, orderItemStatusId, p
     `,
     [orderId, orderItemStatusId, productOptionId, quantity]
   );
-  return orders, order_items;
+
+  const paymentsHistory = await appDataSource.query(
+    `
+    INSERT INTO payments_history (
+      total_price,
+      order_id
+    ) VALUES (
+      ?,
+      ?
+    );
+    `,
+    [totalPrice, orderId]
+  );
+
+  return order, orderItem, paymentsHistory;
 };
 
 module.exports = { createOrder };
