@@ -1,7 +1,7 @@
 const { appDataSource } = require("./data-source");
 
 const createCart = async (quantity, userId, productOptionId) => {
-  await appDataSource.query(
+  return await appDataSource.query(
     `
     INSERT INTO carts (
       quantity,
@@ -17,7 +17,7 @@ const createCart = async (quantity, userId, productOptionId) => {
   );
 };
 
-const getCart = async (userId) => {
+const getCarts = async (userId) => {
   const cart = await appDataSource.query(
     `
     SELECT 
@@ -42,7 +42,7 @@ const getCart = async (userId) => {
 };
 
 const updateCart = async (cartsId, quantity) => {
-  await appDataSource.query(
+  return await appDataSource.query(
     `
     UPDATE carts
     SET quantity = ?
@@ -53,7 +53,7 @@ const updateCart = async (cartsId, quantity) => {
 };
 
 const deleteCart = async (cartsId) => {
-  await appDataSource.query(
+  return await appDataSource.query(
     `
     DELETE FROM carts
     WHERE carts.id = ?;
@@ -62,4 +62,4 @@ const deleteCart = async (cartsId) => {
   );
 };
 
-module.exports = { createCart, getCart, updateCart, deleteCart};
+module.exports = { createCart, getCarts, updateCart, deleteCart};

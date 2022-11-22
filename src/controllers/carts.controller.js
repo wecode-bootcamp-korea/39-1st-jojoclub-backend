@@ -14,20 +14,14 @@ const createCarts = catchAsync(async (req, res) => {
   await cartsService.createCarts(quantity, userId, productOptionId);
 
   return res.status(201).json({
-    message: "SIGNUP_SUCCESS",
+    message: "POST_SUCCESS",
   });
 });
 
 const getCarts = catchAsync(async (req, res) => {
   const userId = req.user.id;
 
-  if (!userId ) {
-    const err = new Error("KEY_ERROR");
-    err.statusCode = 400;
-    throw err;
-  }
-  
-  return res.status(201).json(await cartsService.getCarts(userId));
+  return res.status(200).json(await cartsService.getCarts(userId));
 });
 
 const updateCarts = catchAsync(async (req, res) => {
