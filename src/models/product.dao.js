@@ -18,9 +18,6 @@ const getNewProducts = async (orderBy, limitNum) => {
 };
 
 const getProduct = async (productId) => {
-  console.log('-------------')
-  console.log(productId)
-  console.log('-------------')
   const product = await appDataSource.query(
     `
     SELECT 
