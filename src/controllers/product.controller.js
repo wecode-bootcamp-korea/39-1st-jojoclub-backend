@@ -7,4 +7,11 @@ const getNewProducts = catchAsync(async (req, res) => {
   res.status(200).json(await productService.getNewProducts(orderBy, limitNum));
 });
 
-module.exports = { getNewProducts }
+const getAllProducts = catchAsync(async (req, res) => {
+  const { gender, scent, priceRange } = req.query;
+  res
+    .status(200)
+    .json(await productService.getAllProducts(gender, scent, priceRange));
+});
+
+module.exports = { getNewProducts, getAllProducts }
