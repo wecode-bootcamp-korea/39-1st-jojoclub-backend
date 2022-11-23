@@ -1,50 +1,63 @@
 const { appDataSource } = require("./data-source");
 
-const createOrder = async ( orderId, orderStatusId, userId, orderItemStatusId, productOptionId, quantity, totalPrice) => {
-  const order = await appDataSource.query(
-    `
-    INSERT INTO orders (
-      order_status_id,
-      user_id
-    ) VALUES (
-      ?,
-      ?
-    );
-    `,
-    [orderStatusId, userId]
-  );
+const createOrder = async (productOptionId, quantity, totalPrice, userId) => {
 
-  const orderItem = await appDataSource.query(
-    `
-    INSERT INTO order_items (
-      order_id,
-      order_item_status_id,
-      product_option_id,
-      quantity
-    ) VALUES (
-      ?,
-      ?,
-      ?,
-      ?
-    );
-    `,
-    [orderId, orderItemStatusId, productOptionId, quantity]
-  );
+  const queryRunner = appDataSource.createQueryRunner()
+  await queryRunner.connect()
+  await queryRunner.startTransaction();
 
-  const paymentsHistory = await appDataSource.query(
-    `
-    INSERT INTO payments_history (
-      total_price,
-      order_id
-    ) VALUES (
-      ?,
-      ?
-    );
-    `,
-    [totalPrice, orderId]
-  );
+  try {
 
-  return order, orderItem, paymentsHistory;
-};
+    const order = await appDataSource.query(
+      `    
+      INSERT INTO orders (
+        order_status_id,
+        user_id,
+        total_price
+      ) VALUES (
+        1,
+        ?,
+        ?
+      );
+      `,
+      [userId, totalPrice]
+    );
+  
+    const [getOrderId] = await appDataSource.query(
+      `
+      SELECT id
+        FROM orders o
+        WHERE o.user_id = ?
+        ORDER BY created_at DESC LIMIT 1;
+      `,
+      [userId]
+      );
+  
+    const orderItem = await appDataSource.query(
+      `
+      INSERT INTO order_items (
+        order_id,
+        order_item_status_id,
+        product_option_id,
+        quantity
+      ) VALUES (
+        ?,
+        1,
+        ?,
+        ?
+      );
+      `,
+      [ getOrderId["id"], productOptionId, quantity]
+    );
+
+    await queryRunner.commitTransaction()
+
+  } catch (err) {
+    await queryRunner.rollbackTransaction()
+
+  } finally {
+    await queryRunner.release()
+  }
+}
 
 module.exports = { createOrder };
