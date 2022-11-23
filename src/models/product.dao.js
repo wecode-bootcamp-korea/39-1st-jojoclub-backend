@@ -3,7 +3,8 @@ const { appDataSource } = require("./data-source");
 const getProducts = async (whereByGenderScent, orderByClause, limitClause) => {
   const products = await appDataSource.query(
     `
-    SELECT 
+    SELECT
+      p.id, 
       p.name_en as enName,
       p.name_ko koName,
       po.price,
@@ -26,6 +27,7 @@ const getProducts = async (whereByGenderScent, orderByClause, limitClause) => {
 const getProductDetail = async (productId) => {
   const newProducts = await appDataSource.query(
     `SELECT
+      p.id,
       p.name_en as enName,
       p.name_ko koName,
       sc.name as scent,
