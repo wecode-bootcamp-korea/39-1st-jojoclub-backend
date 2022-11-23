@@ -29,7 +29,7 @@ const getProducts = async (whereByGenderScent, orderByClause, limitClause) => {
 const getProductDetail = async (productId) => {
   const newProducts = await appDataSource.query(
     `SELECT
-      p.productId,
+      p.id as productId,
       p.name_en as enName,
       p.name_ko koName,
       sc.name as scent,
