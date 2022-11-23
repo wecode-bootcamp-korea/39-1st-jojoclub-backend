@@ -4,14 +4,15 @@ const getProducts = async (whereByGenderScent, orderByClause, limitClause) => {
   const products = await appDataSource.query(
     `
     SELECT
-      p.id as productId, 
+      p.id as productId,
+      sc.name as scent, 
       p.name_en as enName,
       p.name_ko koName,
       po.price,
       s.name as size,
       p.created_at,
       g.name as gender,
-      p.thumbnail_img_url as thumbnailImgUrl
+      p.thumbnail_img_url as thumbnailImgUrl 
     FROM products p
     INNER JOIN product_options po ON p.id = product_id
     INNER JOIN sizes s ON s.id = size_id
