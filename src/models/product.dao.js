@@ -8,6 +8,7 @@ const getProducts = async (whereByGenderScent, orderByClause, limitClause) => {
       p.name_en as enName,
       p.name_ko koName,
       po.price,
+      sc.name as scent,
       s.name as size,
       p.created_at,
       g.name as gender,
