@@ -24,8 +24,6 @@ const getOrders = async (orderStatusId, userId) => {
     LEFT JOIN sizes z ON z.id = po.
     WHRER users.id = ?;
     
-
-
     `,
     [orderStatusId, userId]
   );
