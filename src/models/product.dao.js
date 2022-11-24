@@ -5,6 +5,7 @@ const getProducts = async (whereByGenderScent, orderByClause, limitClause) => {
     `
     SELECT
       p.id as productId, 
+      po.id as productOptionId, 
       p.name_en as enName,
       p.name_ko koName,
       po.price,
@@ -23,6 +24,7 @@ const getProducts = async (whereByGenderScent, orderByClause, limitClause) => {
     ${limitClause} 
     ;`
   );
+  console.log(products)
   return products;
 };
 
@@ -36,6 +38,7 @@ const getProductDetail = async (productId) => {
       g.name as gender,
       JSON_ARRAYAGG(
         JSON_OBJECT(
+          "productOptionId", po.id, 
           "img", po.image_url,
           "size", s.name,
           "price", po.price
@@ -43,7 +46,8 @@ const getProductDetail = async (productId) => {
       ) as options,
       p.created_at,
       p.content,
-      p.ingredient
+      p.ingredient,
+      p.manual
     FROM products p
     INNER JOIN product_options po ON p.id = product_id
     INNER JOIN sizes s ON s.id = size_id
