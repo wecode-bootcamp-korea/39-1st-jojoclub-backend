@@ -24,7 +24,6 @@ const getProducts = async (whereByGenderScent, orderByClause, limitClause) => {
     ${limitClause} 
     ;`
   );
-  console.log(products)
   return products;
 };
 
@@ -53,7 +52,7 @@ const getProductDetail = async (productId) => {
     INNER JOIN sizes s ON s.id = size_id
     INNER JOIN scents sc ON p.scent_id = sc.id
     INNER JOIN genders g ON p.gender_id = g.id
-    WHERE p.id = ?`
+    WHERE po.id = ?`
     ,[ productId ]
   );
   return newProducts;
