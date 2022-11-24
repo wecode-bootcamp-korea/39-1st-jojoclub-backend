@@ -12,7 +12,7 @@ const getProducts = async (whereByGenderScent, orderByClause, limitClause) => {
       s.name as size,
       p.created_at,
       g.name as gender,
-      p.thumbnail_img_url as thumbnailImgUrl
+      po.image_url as imgUrl
     FROM products p
     INNER JOIN product_options po ON p.id = product_id
     INNER JOIN sizes s ON s.id = size_id
