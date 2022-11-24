@@ -8,7 +8,6 @@ const getProducts = catchAsync(async (req, res) => {
 
 const getProductDetail = catchAsync(async (req, res) => {
   const { productId } = req.params;
-  console.log(productId)
   return res.status(200).json(await productService.getProductDetail(productId));
 });
 
