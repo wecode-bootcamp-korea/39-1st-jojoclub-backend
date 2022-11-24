@@ -1,14 +1,11 @@
 const ordersService = require("../services/order.service");
 const { catchAsync } = require("../utils/error");
 
-<<<<<<< HEAD
 const getOrder = catchAsync(async (req, res) => {
   const userId = req.user.id;
   return res.status(200).json(await ordersService.getOrder(userId));
 });
 
-module.exports = { getOrder };
-=======
 const createOrder = catchAsync(async (req, res) => {
 
   const { productOptionId, quantity, totalPrice} = req.body;
@@ -27,5 +24,4 @@ const createOrder = catchAsync(async (req, res) => {
   });
 });
 
-module.exports = { createOrder };
->>>>>>> main
+module.exports = { getOrder, createOrder };
