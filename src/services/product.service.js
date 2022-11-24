@@ -18,6 +18,7 @@ const getProducts = async (gender, scent, orderBy, offset, limitNum) => {
     }; 
     let whereClauses = Object.entries(params).map( ([key, value]) => builderSet[key](value) ); 
     whereClauses = whereClauses.filter(el => el !== '')
+    if(whereClauses.length === 0) return "";
     return `WHERE ${whereClauses.join(' AND ')}`;
   }; 
   

@@ -4,8 +4,10 @@ const { catchAsync } = require("../utils/error");
 const createCarts = catchAsync(async (req, res) => {
   const { quantity, productOptionId } = req.body;
   const userId = req.user.id;
+  console.log(quantity, productOptionId, userId)
 
   if (!quantity || !userId || !productOptionId) {
+
     const err = new Error("KEY_ERROR");
     err.statusCode = 400;
     throw err;
