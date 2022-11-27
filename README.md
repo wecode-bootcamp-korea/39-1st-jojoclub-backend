@@ -51,6 +51,8 @@ BACKEND  <br>
 INITIAL SETTING  <br>
 USER API - SIGNUP, SIGNIN <br>
 PRODUCT API - DETAIL PAGE READ, Filtered LIST <br>
+ - 필터링 조건으로 scent(5가지)와 gender(3가지)를 다중 선택할 수 있게 구현 <br>  
+ - 메인 페이지의 제품 슬라이드 등에서 사용하기 위한 필터링 조건(정렬방식(ORDER BY), 표시 개수 제한(LIMIT), 시작위치(OFFSET))의 값을 클라이언트 쪽에서 request하면 맞게 동작하도록 구현 
  <br>
 <h2>
 #ERD</h2>
