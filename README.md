@@ -11,6 +11,7 @@
 ## 개발인원 및 기간
 - Front-end 4명, back-end 2명
 - 2022/11/14 ~ 2022/11/25
+- [백엔드 깃허브 링크](https://github.com/wecode-bootcamp-korea/39-1st-jojoclub-backend)
   
 ## 기술 Stack
 
