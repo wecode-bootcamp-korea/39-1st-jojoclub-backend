@@ -39,6 +39,17 @@
 </div>
 <p>
 <h2>
+  
+## 구현 기능
+- Sign up : 정규 표현식을 사용한 회원가입 구현
+- Sign in : Bcrypt, JWT를 활용한 로그인 구현
+- Filter <br>
+필터링 조건으로 scent(5가지)와 gender(3가지)를 다중 선택할 수 있게 구현<br>
+필터링 조건(정렬방식(ORDER BY), 표시 개수 제한(LIMIT), 시작위치(OFFSET))의 값을 request에 맞게 동작하도록 구현 
+- Category : Scent 별로 해당 페이지 이동
+- Product Detail : 제품별 사이즈 조회 및 가격 조회 기능 구현
+- Cart : 장바구니 기능 구현
+- Order : 주문내역 조회기능 구현
 
 ## 담당 업무
 <table>
